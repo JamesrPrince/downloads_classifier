@@ -17,6 +17,7 @@ dest_dir_video = "/Users/james/Classif_Downs/Videos_"
 dest_dir_image = "/Users/james/Classif_Downs/Images_"
 dest_dir_documents = "/Users/james/Classif_Downs/Docs_"
 dest_dir_programs = "/Users/james/Classif_Downs/Programs_"
+dest_dir_compressed = "/Users/james/Classif_Downs/Compressed_"
 
 # ? supported image types
 image_extensions = [
@@ -99,6 +100,10 @@ document_extensions = [
 program_extensions = [".dmg", ".pkg", ".img", ".rar"]
 
 
+# ? supported Compressed types
+compressed_extensions = [".zip", ".gz"]
+
+
 def make_unique(dest, name):
     filename, extension = splitext(name)
     counter = 1
@@ -130,6 +135,8 @@ class MoverHandler(FileSystemEventHandler):
                 self.check_video_files(entry, name)
                 self.check_image_files(entry, name)
                 self.check_document_files(entry, name)
+                self.check_program_files(entry, name)
+                self.check_compressed_files(entry, name)
 
     def check_audio_files(self, entry, name):  # * Checks all Audio Files
         for audio_extension in audio_extensions:
@@ -153,6 +160,14 @@ class MoverHandler(FileSystemEventHandler):
                 move_file(dest_dir_image, entry, name)
                 logging.info(f"Moved image file: {name}")
 
+    def check_compressed_files(self, entry, name):  # * Checks all Image Files
+        for compressed_extension in compressed_extensions:
+            if name.endswith(compressed_extension) or name.endswith(
+                compressed_extension.upper()
+            ):
+                move_file(dest_dir_compressed, entry, name)
+                logging.info(f"Moved compressed file: {name}")
+
     def check_document_files(self, entry, name):  # * Checks all Document Files
         for documents_extension in document_extensions:
             if name.endswith(documents_extension) or name.endswith(
@@ -161,13 +176,13 @@ class MoverHandler(FileSystemEventHandler):
                 move_file(dest_dir_documents, entry, name)
                 logging.info(f"Moved document file: {name}")
 
-    def check_program_files(self, entry, name):  # * Checks all Document Files
-        for documents_extension in document_extensions:
-            if name.endswith(documents_extension) or name.endswith(
-                documents_extension.upper()
+    def check_program_files(self, entry, name):  # * Checks all Program Files
+        for programs_extension in program_extensions:
+            if name.endswith(programs_extension) or name.endswith(
+                programs_extension.upper()
             ):
-                move_file(dest_dir_documents, entry, name)
-                logging.info(f"Moved document file: {name}")
+                move_file(dest_dir_programs, entry, name)
+                logging.info(f"Moved program file: {name}")
 
 
 # ! NO NEED TO CHANGE BELOW CODE
