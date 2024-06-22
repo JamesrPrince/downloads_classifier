@@ -16,6 +16,7 @@ dest_dir_music = "/Users/james/Classif_Downs/Music_"
 dest_dir_video = "/Users/james/Classif_Downs/Videos_"
 dest_dir_image = "/Users/james/Classif_Downs/Images_"
 dest_dir_documents = "/Users/james/Classif_Downs/Docs_"
+dest_dir_programs = "/Users/james/Classif_Downs/Programs_"
 
 # ? supported image types
 image_extensions = [
@@ -88,7 +89,14 @@ document_extensions = [
     ".xlsx",
     ".ppt",
     ".pptx",
+    ".csv",
+    ".ods",
+    ".epub",
+    ".txt",
 ]
+
+# ? supported Program types
+program_extensions = [".dmg", ".pkg", ".img", ".rar"]
 
 
 def make_unique(dest, name):
@@ -146,6 +154,14 @@ class MoverHandler(FileSystemEventHandler):
                 logging.info(f"Moved image file: {name}")
 
     def check_document_files(self, entry, name):  # * Checks all Document Files
+        for documents_extension in document_extensions:
+            if name.endswith(documents_extension) or name.endswith(
+                documents_extension.upper()
+            ):
+                move_file(dest_dir_documents, entry, name)
+                logging.info(f"Moved document file: {name}")
+
+    def check_program_files(self, entry, name):  # * Checks all Document Files
         for documents_extension in document_extensions:
             if name.endswith(documents_extension) or name.endswith(
                 documents_extension.upper()
